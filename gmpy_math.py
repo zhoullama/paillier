@@ -2,10 +2,10 @@ import random
 import gmpy2
 
 
-def getprimeover(n):
-    r = gmpy2.mpz(random.SystemRandom().getrandbits(n))
-    r = gmpy2.bit_set(r, n-1)
-    return int(gmpy2.next_prime(r))
+def getprimeover(n_length):
+    r = gmpy2.mpz(random.SystemRandom().getrandbits(n_length))
+    r = gmpy2.bit_set(r, n_length-1)
+    return gmpy2.next_prime(r)
 
 
 if __name__ == '__main__':
@@ -16,4 +16,4 @@ if __name__ == '__main__':
         for i in range(10):
             t = getprimeover(n)
             print("t =", t)
-            assert t_min <= t
+            assert t >= t_min
