@@ -28,9 +28,14 @@ class PaillierKeypair(object):
 
 def paillierEncrypt(plaintext, public_key, random_value=None):
     n = public_key[0]
-    g = public_key[1]
+    g = public_key[1] # g = n+1
     n_square = n * n
-    ciphertext = gmpy2.powmod(g, plaintext, n_square)
+    # ciphertext = gmpy2.powmod(g, plaintext, n_square)
+    '''"(n+1)^plaintext mod n^2" equals "(n * plaintext + 1) mod n^2".
+    This can be simply derived by binomial theorem.
+    So we can apply an optimization as follows:
+    '''
+    ciphertext = (n * plaintext + 1) % n_square
     r = random_value or random.SystemRandom().randrange(1, n)
     assert gmpy2.gcd(r, n) == 1
     obfuscator = gmpy2.powmod(r, n, n_square)
